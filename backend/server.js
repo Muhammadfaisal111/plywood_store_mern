@@ -8,7 +8,12 @@ const app = express();
 
 app.use(express.json());
 const authRoutes = require("./routes/authRoutes");
+const { protect } = require("./middleware/authMiddleware");
 app.use("/api/auth", authRoutes);
+
+app.get("/api/test-protect", protect, (req, res) => {
+  res.json({ message: `Hello ${req.user.name}, you are logged in!` });
+});
 
 app.get("/", (req, res) => {
   res.send("API running...");
